@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('countryPaymentMethods', {
+    return queryInterface.createTable('countryFeatures', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,18 +18,18 @@ module.exports = {
         }
       },
 
-      payment_method_id: {
+      feature_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'paymentMethods',
+          model: 'features',
           key: 'id'
         }
       },
 
-      requires_additional_verification: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true
+      value: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
 
       created_at: {
@@ -48,6 +48,6 @@ module.exports = {
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('countryPaymentMethods');
+    return queryInterface.dropTable('countryFeatures');
   }
 };
