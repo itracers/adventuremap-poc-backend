@@ -1,6 +1,8 @@
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { Country } from "./countries/country.model";
+import { CountryPaymentMethods } from "./countryPaymentMethods/countryPaymentMethod.model";
+import { PaymentMethod } from "./paymentMethods/paymentMethod.model";
 
 const DBModule = SequelizeModule.forRootAsync({
   imports: [ConfigModule.forRoot()],
@@ -11,7 +13,7 @@ const DBModule = SequelizeModule.forRootAsync({
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_NAME'),
-    models: [Country],
+    models: [Country, PaymentMethod, CountryPaymentMethods],
   }),
   inject: [ConfigService],
 });
