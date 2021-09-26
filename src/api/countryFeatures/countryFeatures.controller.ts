@@ -8,7 +8,7 @@ export class CountryFeaturesController {
 
   @Get()
   findAll(@Req() request): Promise<CountryFeatures[]>  {
-    return this.countryFeaturesService.findAll();
+    return this.countryFeaturesService.findAll(request.query);
   }
 
   @Get('/:id')

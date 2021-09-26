@@ -8,7 +8,7 @@ export class CountryPaymentMethodsController {
 
   @Get()
   findAll(@Req() request): Promise<CountryPaymentMethods[]>  {
-    return this.countryPaymentMethodsService.findAll();
+    return this.countryPaymentMethodsService.findAll(request.query);
   }
 
   @Get('/:id')
