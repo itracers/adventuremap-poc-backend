@@ -5,6 +5,7 @@ import { CountryFeatures } from "./countryFeatures/countryFeatures.model";
 import { CountryPaymentMethods } from "./countryPaymentMethods/countryPaymentMethod.model";
 import { Feature } from "./features/features.model";
 import { PaymentMethod } from "./paymentMethods/paymentMethod.model";
+import { Source } from "./sources/sources.model";
 
 const DBModule = SequelizeModule.forRootAsync({
   imports: [ConfigModule.forRoot()],
@@ -15,7 +16,7 @@ const DBModule = SequelizeModule.forRootAsync({
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_NAME'),
-    models: [Country, PaymentMethod, CountryPaymentMethods, Feature, CountryFeatures],
+    models: [Country, PaymentMethod, CountryPaymentMethods, Feature, CountryFeatures, Source],
   }),
   inject: [ConfigService],
 });

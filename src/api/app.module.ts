@@ -5,6 +5,7 @@ import { CountryPaymentMethodsModule } from './countryPaymentMethods/countryPaym
 import DBModule from './db.module';
 import { FeaturesModule } from './features/features.module';
 import { PaymentMethodsModule } from './paymentMethods/paymentMethod.module';
+import { SourcesModule } from './sources/sources.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { PaymentMethodsModule } from './paymentMethods/paymentMethod.module';
     FeaturesModule,
     PaymentMethodsModule,
     CountryPaymentMethodsModule,
-    CountriesModule
+    CountriesModule,
+    SourcesModule
   ]
 })
 export class AppModule {}

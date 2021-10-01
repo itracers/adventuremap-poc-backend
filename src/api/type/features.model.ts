@@ -10,7 +10,4 @@ export class Feature extends Model {
 
   @Column
   property: string;
-
-  @Column
-  type: string;
 }
