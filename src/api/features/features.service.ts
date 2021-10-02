@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize';
+import { Country } from '../countries/country.model';
 import { CountryFeatures } from '../countryFeatures/countryFeatures.model';
 import { Feature } from './features.model';
 
@@ -8,7 +9,11 @@ import { Feature } from './features.model';
 export class FeaturesService {
   constructor(
     @InjectModel(Feature)
-    private featuresModel: typeof Feature
+    private featuresModel: typeof Feature,
+    @InjectModel(Country)
+    private countryModel: typeof Country,
+    @InjectModel(CountryFeatures)
+    private countryFeaturesModel: typeof CountryFeatures
   ) { }
 
   async findAll(): Promise<Feature[]> {
@@ -45,5 +50,45 @@ export class FeaturesService {
 
   async findByPk(id: string | number): Promise<Feature> {
     return this.featuresModel.findByPk<Feature>(id);
+  }
+
+  async importFeatures(featuresData: Array<{ country_code_3: string, feature_name: string, feature_property: string, feature_value: string }>) {
+    const featureProperties = Array.from(new Set(featuresData.map(feature => feature.feature_property)));
+    let featureNamesMapped = featuresData.reduce((prev, next) => {
+      if (!prev[next.feature_property] || next.feature_name) {
+        prev[next.feature_property] = next.feature_name;
+      }
+      return prev;
+    }, {});
+    let featureIdsMapped = (await this.featuresModel.findAll({ where: { property: featureProperties } }))
+      .reduce((prev, next) => {
+        prev[next.property] = next.id;
+        return prev;
+      }, {});
+
+    for (let featureProperty of featureProperties) {
+      if (!featureIdsMapped[featureProperty]) {
+        const feature = await this.featuresModel.create({ name: featureNamesMapped[featureProperty] || null, property: featureProperty, type: 'string' });
+        featureIdsMapped[featureProperty] = feature.id;
+      }
+    }
+    let countryIdsMapped = (await this.countryModel.findAll())
+      .reduce((prev, next) => {
+        prev[next.country_code_3] = next.id;
+        return prev;
+      }, {})
+
+    for (let featureItem of featuresData) {
+      const countryFeatureData = {
+        country_id: countryIdsMapped[featureItem.country_code_3],
+        feature_id: featureIdsMapped[featureItem.feature_property],
+        value: featureItem.feature_value
+      };
+
+      const countryFeature = await this.countryFeaturesModel.findOne({ where: countryFeatureData });
+      if (!countryFeature) {
+        await this.countryFeaturesModel.create(countryFeatureData);
+      }
+    }
   }
 }
