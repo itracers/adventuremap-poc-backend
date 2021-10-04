@@ -1,4 +1,9 @@
-version: 0.0.1
+version: 2.1
+executors:
+  my-custom-executor:
+    docker:
+      - image: cimg/node:16.10.0
+      
 jobs:
   build:
     branches:
@@ -11,16 +16,15 @@ jobs:
 
     steps:
       - checkout
-        
-      - run:
-          name: Preparing to build
-          command: |
-            sudo npm i -g npm
-        
-      - restore_cache:
-          keys:
-          - dependencies-{{ checksum "package.json" }}
-          - dependencies-
+      - run: |
+          git branch;
+          sudo npm i -g npm;
+          npm i;
+          zip build.zip -r .;
+          chmod +x ./install.sh;
+          scp -o StrictHostKeyChecking=no build.zip $SSH_HOST:build.zip;
+          scp -o StrictHostKeyChecking=no install.sh SSH_HOST:install.sh;
+          ssh -o StrictHostKeyChecking=no $SSH_HOST './install.sh';
 
       - run:
           name: Installing dependencies
