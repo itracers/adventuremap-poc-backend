@@ -9,7 +9,7 @@ import { CountryFeatures } from '../countryFeatures/countryFeatures.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([Feature, Country, CountryFeatures])],
-  controllers: [FeaturesController, FeaturesCommand],
+  controllers: [FeaturesController],
   providers: [
     FeaturesService, FeaturesCommand
   ],
