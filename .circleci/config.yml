@@ -6,12 +6,13 @@ executors:
       
 jobs:
   deploy:
-    environment:
-      SSH_HOST: $SSH_HOST
-
     executor: node-executor
     steps:
       - checkout
+      - run:
+          name: "Test target availability"
+          command: |
+            ssh -o StrictHostKeyChecking=no $SSH_HOST 'echo test';
       - run: 
           name: "Install dependencies"
           command: |
