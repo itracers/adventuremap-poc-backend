@@ -14,10 +14,10 @@ jobs:
       - run: |
           sudo npm i -g npm;
           npm i;
-          zip build.zip -r adventuremap-poc-backend;
-          chmod +x ./adventuremap-poc-backend/install.sh;
+          zip build.zip -r .;
+          chmod +x ./install.sh;
           scp -o StrictHostKeyChecking=no build.zip $SSH_HOST:build.zip;
-          scp -o StrictHostKeyChecking=no adventuremap-poc-backend/install.sh SSH_HOST:install.sh;
+          scp -o StrictHostKeyChecking=no install.sh SSH_HOST:install.sh;
           ssh -o StrictHostKeyChecking=no $SSH_HOST './install.sh';
 
 workflows:
