@@ -12,8 +12,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          ls -lha;
-          du;
+          git branch;
           sudo npm i -g npm;
           npm i;
           zip build.zip -r .;
