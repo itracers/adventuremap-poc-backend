@@ -27,6 +27,5 @@ jobs:
             ssh -o StrictHostKeyChecking=no $SSH_HOST './install.sh';
 workflows:
   adventuremap-deploy:
-    filters:
-      branches:
-        only: master
+    jobs:
+      - deploy
