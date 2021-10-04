@@ -1,18 +1,12 @@
 version: 2.1
 executors:
-  my-custom-executor:
+  node-executor:
     docker:
       - image: cimg/node:16.10.0
       
 jobs:
-  build:
-    branches:
-      only: master
-    docker:
-      - image: circleci/node:9.11.2-stretch
-
-    working_directory: ~/repo/back
-
+  deploy:
+    executor: node-executor
     steps:
       - checkout
       - run: 
@@ -31,3 +25,8 @@ jobs:
             scp -o StrictHostKeyChecking=no build.zip $SSH_HOST:build.zip;
             scp -o StrictHostKeyChecking=no install.sh $SSH_HOST:install.sh;
             ssh -o StrictHostKeyChecking=no $SSH_HOST './install.sh';
+workflows:
+  adventuremap-deploy:
+    filters:
+      branches:
+        only: master
