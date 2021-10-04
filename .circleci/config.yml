@@ -7,8 +7,7 @@ executors:
 jobs:
   build:
     branches:
-      only:
-        - master
+      only: master
     docker:
       - image: circleci/node:9.11.2-stretch
 
@@ -32,21 +31,3 @@ jobs:
             scp -o StrictHostKeyChecking=no build.zip $SSH_HOST:build.zip;
             scp -o StrictHostKeyChecking=no install.sh $SSH_HOST:install.sh;
             ssh -o StrictHostKeyChecking=no $SSH_HOST './install.sh';
-
-      - run:
-          name: Installing dependencies
-          command: |
-            npm i
-            
-      - save_cache:
-          paths:
-            - node_modules
-          key: dependencies-{{ checksum "package.json" }}
-        
-      - run:
-          name: Deploying
-          command: |
-            zip -r back.zip ./
-            scp -oStrictHostKeyChecking=no back.zip ${ssh_connection}:back.zip;
-            scp -oStrictHostKeyChecking=no install.sh ${ssh_connection}:install.sh;
-            ssh -oStrictHostKeyChecking=no ${ssh_connection} <<< $'./install.sh';
