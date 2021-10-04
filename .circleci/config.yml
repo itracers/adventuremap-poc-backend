@@ -11,15 +11,22 @@ jobs:
     executor: my-custom-executor
     steps:
       - checkout
-      - run: |
-          ls;
-          sudo npm i -g npm;
-          npm i;
-          zip build.zip -r .;
-          chmod +x ./install.sh;
-          scp -o StrictHostKeyChecking=no build.zip $SSH_HOST:build.zip;
-          scp -o StrictHostKeyChecking=no install.sh $SSH_HOST:install.sh;
-          ssh -o StrictHostKeyChecking=no $SSH_HOST './install.sh';
+      - run: 
+          name: "Install dependencies"
+          command: |
+            npm i;
+      - run: 
+          name: "Build app"
+          command: |
+            npm run build;
+      - run: 
+          name: "Deploy"
+          command: |
+            zip build.zip -r .;
+            chmod +x ./install.sh;
+            scp -o StrictHostKeyChecking=no build.zip $SSH_HOST:build.zip;
+            scp -o StrictHostKeyChecking=no install.sh $SSH_HOST:install.sh;
+            ssh -o StrictHostKeyChecking=no $SSH_HOST './install.sh';
 
 workflows:
   adventuremap-deploy:
