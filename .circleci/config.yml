@@ -1,0 +1,26 @@
+version: 2.1
+executors:
+  my-custom-executor:
+    docker:
+      - image: cimg/base:stable
+      
+jobs:
+  deploy:
+    environment:
+      SSH_HOST: deploy@151.115.33.89
+    executor: my-custom-executor
+    steps:
+      - checkout
+      - run: |
+          sudo npm i -g npm
+          npm i
+          zip build.zip -r adventuremap-poc-backend
+          chmod +x ./adventuremap-poc-backend/install.sh
+          scp -o StrictHostKeyChecking=no build.zip $SSH_HOST:build.zip
+          scp -o StrictHostKeyChecking=no adventuremap-poc-backend/install.sh SSH_HOST:install.sh
+          ssh -o StrictHostKeyChecking=no $SSH_HOST './install.sh'
+
+workflows:
+  adventuremap-deploy:
+    jobs:
+      - deploy
