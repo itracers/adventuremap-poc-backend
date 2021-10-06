@@ -20,6 +20,7 @@ jobs:
       - run: 
           name: "Build app"
           command: |
+            env > .env;
             npm run build;
       - run: 
           name: "Deploy"
