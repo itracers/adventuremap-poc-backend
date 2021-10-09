@@ -3,7 +3,7 @@ import * as Superagent from 'superagent';
 
 import NUMBEO_CONFIG from './config';
 
-export default class NumbeoParser {
+export class NumbeoParser {
   async parseTotal() {
     let result: any = {};
     for (let prefix in NUMBEO_CONFIG.prefixes) {

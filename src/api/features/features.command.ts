@@ -6,7 +6,7 @@ import * as csv from 'csv-parser';
 import { ImportFeatureDto } from './dto/import-feature.dto';
 import { CountriesService } from '../countries/country.service';
 
-import NumbeoParser from '../../parsers/numbeo';
+import { NumbeoParser } from '../../parsers/numbeo';
 @Injectable()
 export class FeaturesCommand {
   constructor(private readonly featuresService: FeaturesService, private readonly countriesService: CountriesService) { }
