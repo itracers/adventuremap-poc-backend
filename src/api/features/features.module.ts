@@ -6,12 +6,14 @@ import { Feature } from './features.model';
 import { FeaturesCommand } from './features.command';
 import { Country } from '../countries/country.model';
 import { CountryFeatures } from '../countryFeatures/countryFeatures.model';
+import { CountriesService } from '../countries/country.service';
 
 @Module({
   imports: [SequelizeModule.forFeature([Feature, Country, CountryFeatures])],
   controllers: [FeaturesController],
   providers: [
-    FeaturesService, FeaturesCommand
+    FeaturesService, CountriesService,
+    FeaturesCommand
   ],
 })
 export class FeaturesModule { }

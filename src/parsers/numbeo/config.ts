@@ -15,10 +15,29 @@ const NUMBEO_CONFIG = {
         'Traffic Commute Time Index': 'traffic_commune_time_index',
         'Pollution Index': 'pollution_index',
         'Climate Index': 'climate_index'
-
       }
     }
+  },
+  feature_names: {
+    quality_of_life: {
+      'rank': 'Rank',
+      'qol_index': 'Index',
+      'purchasing_power_index': 'Purchasing Power Index',
+      'safety_index': 'Safety Index',
+      'healthcare_index': 'Health Care Index',
+      'cost_of_living_index': 'Cost of Living Index',
+      'property_price_to_income_ratio': 'Property Price to Income Ratio',
+      'traffic_commune_time_index': 'Traffic Commute Time Index',
+      'pollution_index': 'Pollution Index',
+      'climate_index': 'Climate Index'
+  
+    }
+  },
+  country_name_replacements: {
+    'Bosnia And Herzegovina': 'Bosnia & Herzegovina',
+    'North Macedonia': 'Macedonia',
+    'Hong Kong': 'Hong Kong SAR China'
   }
 }
 
-module.exports = NUMBEO_CONFIG;
+export default NUMBEO_CONFIG;
