@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize';
 import { Country } from '../countries/country.model';
 import { CountryFeatures } from '../countryFeatures/countryFeatures.model';
+import { ImportFeatureDto } from './dto/import-feature.dto';
 import { Feature } from './features.model';
 
 @Injectable()
@@ -52,7 +53,7 @@ export class FeaturesService {
     return this.featuresModel.findByPk<Feature>(id);
   }
 
-  async importFeatures(featuresData: Array<{ country_code_3: string, feature_name: string, feature_property: string, feature_value: string }>) {
+  async importFeatures(featuresData: Array<ImportFeatureDto>) {
     const featureProperties = Array.from(new Set(featuresData.map(feature => feature.feature_property)));
     let featureNamesMapped = featuresData.reduce((prev, next) => {
       if (!prev[next.feature_property] || next.feature_name) {
@@ -85,9 +86,12 @@ export class FeaturesService {
         value: featureItem.feature_value
       };
 
-      const countryFeature = await this.countryFeaturesModel.findOne({ where: countryFeatureData });
+      const countryFeature = await this.countryFeaturesModel.findOne({ where: { country_id: countryFeatureData.country_id, feature_id: countryFeatureData.feature_id } });
       if (!countryFeature) {
         await this.countryFeaturesModel.create(countryFeatureData);
+      }
+      else if (countryFeature.value != countryFeatureData.value) {
+        await countryFeature.update({ value: countryFeatureData.value });
       }
     }
   }

@@ -16,6 +16,14 @@ const DBModule = SequelizeModule.forRootAsync({
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_NAME'),
+
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    },
+
     models: [Country, PaymentMethod, CountryPaymentMethods, Feature, CountryFeatures, Source],
   }),
   inject: [ConfigService],

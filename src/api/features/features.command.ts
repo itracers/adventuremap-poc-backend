@@ -4,6 +4,10 @@ import { FeaturesService } from './features.service';
 import { createReadStream } from 'fs';
 import * as csv from 'csv-parser';
 
+// const SOURCES = {
+//   'numbeo:quality-of-life'
+// }
+
 @Injectable()
 export class FeaturesCommand {
   constructor(private readonly featuresService: FeaturesService) { }
@@ -12,7 +16,7 @@ export class FeaturesCommand {
     command: 'import:features <filename>',
     describe: 'import features from CSV',
   })
-  async create(
+  async import(
     @Positional({
       name: 'filename',
       describe: 'CSV filename',
@@ -20,16 +24,27 @@ export class FeaturesCommand {
     })
     filename: string,
   ) {
-    await new Promise(resolve => {
+    const results: any[] = await new Promise(resolve => {
       let results = [];
       createReadStream(filename)
         .pipe(csv())
         .on('data', (data) => results.push(data))
-        .on('end', () => {
-          resolve(results);
-        });
+        .on('end', () => resolve(results));
+    });
+    await this.featuresService.importFeatures(results);
+  }
 
-    }).then((results: []) => this.featuresService.importFeatures(results))
-
+  @Command({
+    command: 'parse:features <source>',
+    describe: 'parse features from source'
+  })
+  async parse(
+    @Positional({
+      name: 'source',
+      describe: 'source name',
+      type: 'string'
+    })
+    source: string,
+  ) {
   }
 }
