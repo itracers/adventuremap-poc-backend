@@ -59,8 +59,8 @@ const NUMBEO_CONFIG = {
   },
   feature_names: {
     quality_of_life: {
-      'rank': 'Rank',
-      'qol_index': 'Index',
+      'rank': 'Quality of life Rank',
+      'qol_index': 'Quality of life Index',
       'purchasing_power_index': 'Purchasing Power Index',
       'safety_index': 'Safety Index',
       'healthcare_index': 'Health Care Index',
@@ -71,22 +71,22 @@ const NUMBEO_CONFIG = {
       'climate_index': 'Climate Index'
     },
     crime: {
-      'rank': 'Rank',
+      'rank': 'Crime Rank',
       'crime_index': 'Crime Index',
       'safety_index': 'Safety Index'
     },
     healthcare: {
-      'rank': 'Rank',
+      'rank': 'Healthcare Rank',
       'healthcare_index': 'Health Care Index',
       'healthcare_index_exp': 'Health Care Index Exponential'
     },
     pollution: {
-      'rank': 'Rank',
+      'rank': 'Pollution Rank',
       'pollution_index': 'Pollution Index',
       'pollution_index_exp': 'Exp Pollution Index'
     },
     traffic: {
-      'rank': 'Rank',
+      'rank': 'Traffic Rank',
       'traffic_index': 'Traffic Index',
       'time_index_minutes': 'Commuting Time Index (in minutes)',
       'time_index_exp': 'Time Exp. Index',
