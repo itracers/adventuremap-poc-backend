@@ -23,4 +23,7 @@ export class CountryPaymentMethods extends Model {
 
   @Column
   requires_additional_verification: boolean;
+
+  @Column
+  currency: string;
 }
